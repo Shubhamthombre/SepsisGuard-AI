@@ -1,0 +1,63 @@
+
+# Environment variables and secrets
+.env
+.env.*
+!.env.example
+
+# Dependencies
+node_modules/
+**/node_modules/
+venv/
+.venv/
+__pycache__/
+*.py[cod]
+
+# Build outputs
+dist/
+dist-ssr/
+build/
+
+# Logs
+logs/
+*.log
+npm-debug.log*
+
+# Local databases and temporary files
+*.local
+.DS_Store
+Thumbs.db
+
+# Dataset files - do not upload patient datasets
+*.psv
+
+# Python test/cache files
+.pytest_cache/
+.mypy_cache/
+
+
+# Keep only model artifacts used by the live API
+/ml/models/*
+!/ml/models/sepsis_model.joblib
+!/ml/models/explainer.joblib
+!/ml/models/optimal_threshold.txt
+
+/backend/test_user.json
+
+# Local test credentials
+backend/test_user.json
+
+# Environment secrets
+.env
+.env.*
+!.env.example
+backend/.env
+frontend/.env.local
+
+# Dependencies and Python cache
+node_modules/
+__pycache__/
+.venv/
+venv/
+
+# Dataset files
+*.psv
