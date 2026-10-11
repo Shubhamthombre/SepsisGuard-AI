@@ -1,33 +1,30 @@
-const nodemailer = require('nodemailer');
+
+const { Resend } = require('resend');
 
 const sendRiskAlertEmail = async (clinician, patient, assessment) => {
-  const emailHost = process.env.EMAIL_HOST;
-  const emailPort = process.env.EMAIL_PORT || 587;
-  const emailUser = process.env.EMAIL_USER;
-  const emailPass = process.env.EMAIL_PASS;
-  const emailFrom = process.env.EMAIL_FROM || 'SepsisGuard AI <noreply@sepsisguard.ai>';
-  const appUrl = process.env.APP_URL || process.env.FRONTEND_URL || 'http://localhost:5173';
+  const resendApiKey = process.env.RESEND_API_KEY;
+  const emailFrom =
+    process.env.EMAIL_FROM || 'SepsisGuard AI <onboarding@resend.dev>';
+  const appUrl =
+    process.env.APP_URL ||
+    process.env.FRONTEND_URL ||
+    'http://localhost:5173';
 
-  if (!emailHost || !emailUser || !emailPass) {
-    console.log(`[Email Notice] Email alert skipped for patient ${patient.name} (${assessment.status}): Email credentials (EMAIL_HOST, EMAIL_USER, EMAIL_PASS) are not configured in environment variables.`);
+  if (!resendApiKey) {
+    console.error('[Email Error] RESEND_API_KEY is missing.');
     return false;
   }
 
   if (!clinician || !clinician.email) {
-    console.log(`[Email Notice] Email alert skipped: Clinician email not found for patient ${patient.name}.`);
+    console.log(
+      `[Email Notice] Clinician email not found for patient ${patient.name}.`
+    );
     return false;
   }
 
+  const resend = new Resend(resendApiKey);
+
   try {
-    const transporter = nodemailer.createTransport({
-      host: emailHost,
-      port: Number(emailPort),
-      secure: Number(emailPort) === 465,
-      auth: {
-        user: emailUser,
-        pass: emailPass,
-      },
-    });
 
     const riskColor = assessment.status === 'High Risk' ? '#dc2626' : '#d97706';
     const assessmentTime = new Date(assessment.recordedAt).toLocaleString();
@@ -61,13 +58,23 @@ const sendRiskAlertEmail = async (clinician, patient, assessment) => {
       `,
     };
 
-    await transporter.sendMail(mailOptions);
+    const { data, error } = await resend.emails.send({
+  from: emailFrom,
+  to: [clinician.email],
+  subject: mailOptions.subject,
+  html: mailOptions.html,
+});
+
+if (error) {
+  console.error('[Resend Error]', error.message);
+  return false;
+}
     console.log(`🟢 Email alert successfully sent to clinician ${clinician.email} for patient ${patient.name} (${assessment.status}).`);
     return true;
-  } catch (err) {
-    console.error('❌ Failed to send email alert:', err.message);
-    return false;
-  }
+ } catch (err) {
+  console.error('[Resend Error]', err.message);
+  return false;
+}
 };
 
 module.exports = { sendRiskAlertEmail };
