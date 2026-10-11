@@ -23,6 +23,11 @@ app.get('/', (req, res) => {
   res.send('SepsisGuard AI Backend is running successfully!');
 });
 
+// Health Check Endpoint for UptimeRobot
+app.get('/api/health', (req, res) => {
+  res.status(200).json({ status: 'ok', timestamp: new Date().toISOString() });
+});
+
 // Database Connection
 const MONGODB_URI = process.env.MONGODB_URI || 'mongodb://127.0.0.1:27017/sepsisguard';
 
