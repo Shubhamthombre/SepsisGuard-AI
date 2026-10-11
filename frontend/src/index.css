@@ -6,10 +6,74 @@ body {
   background-color: var(--bg-dark);
   color: var(--text-main);
   font-family: var(--font-family);
+  overflow-x: hidden;
 }
 
 .dashboard-container {
   max-width: 1200px;
   margin: 0 auto;
   padding: 20px;
+}
+
+/* Mobile Responsiveness Overrides (<= 768px) */
+@media (max-width: 768px) {
+  /* Container and general padding reduction */
+  .dashboard-container,
+  main.dashboard-container {
+    padding: 16px !important;
+  }
+
+  /* Navbar glass adaptation */
+  .navbar-glass {
+    padding: 12px 16px !important;
+    flex-direction: column !important;
+    align-items: stretch !important;
+    gap: 12px !important;
+  }
+  
+  .navbar-glass nav {
+    flex-wrap: wrap !important;
+    gap: 12px !important;
+    overflow-x: auto !important;
+    white-space: nowrap !important;
+    padding-bottom: 6px !important;
+    width: 100% !important;
+    -webkit-overflow-scrolling: touch;
+  }
+
+  /* Collapse all inline CSS grids to single column */
+  div[style*="gridTemplateColumns"],
+  div[style*="grid-template-columns"] {
+    grid-template-columns: 1fr !important;
+  }
+
+  /* Stack flex headers and command banners */
+  div[style*="justify-content: space-between"][style*="align-items: center"] {
+    flex-direction: column !important;
+    align-items: flex-start !important;
+    gap: 16px !important;
+  }
+
+  /* Specific hero / section stacking */
+  section {
+    padding: 30px 16px !important;
+  }
+
+  /* SHAP feature importance contribution rows */
+  .shap-row {
+    flex-direction: column !important;
+    align-items: flex-start !important;
+    gap: 8px !important;
+  }
+
+  .shap-row span {
+    width: 100% !important;
+    text-align: left !important;
+  }
+
+  /* Form inputs and buttons full width */
+  form input, form select, form textarea {
+    max-width: 100% !important;
+    box-sizing: border-box !important;
+  }
 }
