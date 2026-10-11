@@ -1,3 +1,4 @@
+require('dns').setDefaultResultOrder('ipv4first');
 const express = require('express');
 const mongoose = require('mongoose');
 const cors = require('cors');
@@ -25,9 +26,7 @@ app.get('/', (req, res) => {
 // Database Connection
 const MONGODB_URI = process.env.MONGODB_URI || 'mongodb://127.0.0.1:27017/sepsisguard';
 
-mongoose.connect(MONGODB_URI, {
-  family: 4
-})
+mongoose.connect(MONGODB_URI)
   .then(() => {
     console.log('🟢 Successfully connected to MongoDB.');
   })
@@ -41,3 +40,4 @@ const PORT = process.env.PORT || 5000;
 app.listen(PORT, () => {
   console.log(`🚀 Server running on http://localhost:${PORT}`);
 });
+
