@@ -150,7 +150,7 @@ router.post('/:id/vitals', protect, async (req, res) => {
     let featureImportance = {}; // Initialize here
     try {
         // ML Service timeout: 5 seconds
-        const mlResponse = await axios.post('http://127.0.0.1:8000/predict', {
+        const mlResponse = await axios.post(`${process.env.ML_API_URL}/predict`, {
             HR: Number(heartRate), Temp: Number(temperature), Resp: Number(respiratoryRate),
             SBP: Number(systolicBP), DBP: Number(diastolicBP), O2Sat: Number(oxygenSaturation),
             MAP: Number(MAP), Creatinine: Number(Creatinine), BUN: Number(BUN),
