@@ -150,7 +150,7 @@ function PatientProfile() {
         {latestVitals && latestVitals.featureImportance && Object.keys(latestVitals.featureImportance).length > 0 ? (
             <div style={{ display: 'grid', gap: '12px' }}>
                 {Object.entries(latestVitals.featureImportance).map(([feature, importance]) => (
-                    <div key={feature} style={{ background: 'rgba(7, 11, 25, 0.7)', padding: '14px 20px', borderRadius: '14px', border: '1px solid rgba(148, 163, 184, 0.2)', display: 'flex', alignItems: 'center', gap: '20px' }}>
+                    <div key={feature} className="shap-row" style={{ background: 'rgba(7, 11, 25, 0.7)', padding: '14px 20px', borderRadius: '14px', border: '1px solid rgba(148, 163, 184, 0.2)', display: 'flex', alignItems: 'center', gap: '20px' }}>
                         <span style={{ width: '170px', fontWeight: '700', fontSize: '0.9rem', color: '#f8fafc' }}>{featureMap[feature] || feature}</span>
                         <div style={{ flex: 1, height: '10px', background: 'rgba(255, 255, 255, 0.08)', borderRadius: '5px', overflow: 'hidden', position: 'relative' }}>
                             <div style={{
