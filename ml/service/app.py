@@ -9,6 +9,10 @@ import shap
 # Define the FastAPI app
 app = FastAPI()
 
+@app.get("/health")
+async def health_check():
+    return {"status": "ok"}
+
 # Load model and explainer
 model_path = os.path.abspath(os.path.join(os.path.dirname(__file__), "..", "models", "sepsis_model.joblib"))
 explainer_path = os.path.abspath(os.path.join(os.path.dirname(__file__), "..", "models", "explainer.joblib"))
